@@ -1,0 +1,11 @@
+{
+	"schemaVersion": 1,
+	"id": "qdaa",
+	"version": "${version}",
+	"name": "QDAA",
+	"description": "Quick&dirty 2xSSAA",
+	"authors": [ "unascribed" ],
+	"license": "CC0",
+	"environment": "client",
+	"mixins": ["qdaa.mixins.json"]
+}

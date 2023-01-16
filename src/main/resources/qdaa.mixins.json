@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.unascribed.qdaa.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "qdaa-refmap.json",
+  "client": [
+	  "MixinFramebuffer",
+	  "MixinWindow"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
