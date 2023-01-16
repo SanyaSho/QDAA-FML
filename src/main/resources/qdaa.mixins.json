@@ -6,7 +6,9 @@
   "refmap": "qdaa-refmap.json",
   "client": [
 	  "MixinFramebuffer",
-	  "MixinWindow"
+	  "MixinWindow",
+	  "MixinScreenshotRecorder",
+	  "AccessorNativeImage"
   ],
   "injectors": {
     "defaultRequire": 1
