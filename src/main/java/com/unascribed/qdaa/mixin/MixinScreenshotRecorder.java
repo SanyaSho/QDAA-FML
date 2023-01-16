@@ -21,7 +21,7 @@ import net.minecraft.client.util.ScreenshotRecorder;
 @Mixin(ScreenshotRecorder.class)
 public class MixinScreenshotRecorder {
 
-	@Inject(at=@At("HEAD"), method="takeScreenshot", cancellable=true)
+	@Inject(at=@At("HEAD"), method="takeScreenshot", cancellable=true, require=0)
 	private static void takeScreenshot(Framebuffer framebuffer, CallbackInfoReturnable<NativeImage> cir) {
 		if (framebuffer == MinecraftClient.getInstance().getFramebuffer()) {
 			int w = framebuffer.textureWidth;
