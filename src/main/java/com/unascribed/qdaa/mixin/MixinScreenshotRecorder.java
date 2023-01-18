@@ -14,7 +14,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.mojang.blaze3d.framebuffer.Framebuffer;
 import com.mojang.blaze3d.texture.NativeImage;
-import com.mojang.blaze3d.texture.NativeImage.Format;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.ScreenshotRecorder;
@@ -27,15 +26,17 @@ public class MixinScreenshotRecorder {
 		if (framebuffer == MinecraftClient.getInstance().getFramebuffer()) {
 			int w = framebuffer.textureWidth;
 			int h = framebuffer.textureHeight;
-			var data = memAlloc(w*h*3);
+			var data = memAlloc(w*h*4);
 			try {
 				framebuffer.bindColorAttachmentAsTexture();
-				glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-				var img = new NativeImage(Format.BGR, w/2, h/2, false);
-				var odata = MemoryUtil.memByteBuffer(((AccessorNativeImage)(Object)img).qdaa$getPointer(), (w/2)*(h/2)*3);
+				glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+				for (int i = 0; i < data.limit(); i += 4)
+					data.put(i+3, (byte)0xFF);
+				var img = new NativeImage(w/2, h/2, false);
+				var odata = MemoryUtil.memByteBuffer(((AccessorNativeImage)(Object)img).qdaa$getPointer(), w*h*2);
 				stbir_resize_uint8_generic(data, w, h, 0,
 						odata, w/2, h/2, 0,
-						3, 0, STBIR_ALPHA_CHANNEL_NONE, STBIR_EDGE_CLAMP,
+						4, 0, 3, STBIR_EDGE_CLAMP,
 						STBIR_FILTER_BOX, STBIR_COLORSPACE_LINEAR);
 				img.mirrorVertically();
 				cir.setReturnValue(img);
