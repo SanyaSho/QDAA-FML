@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.mojang.blaze3d.framebuffer.Framebuffer;
 import com.mojang.blaze3d.texture.NativeImage;
+import com.unascribed.qdaa.QDAA;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.ScreenshotRecorder;
@@ -23,7 +24,7 @@ public class MixinScreenshotRecorder {
 
 	@Inject(at=@At("HEAD"), method="takeScreenshot", cancellable=true, require=0)
 	private static void takeScreenshot(Framebuffer framebuffer, CallbackInfoReturnable<NativeImage> cir) {
-		if (framebuffer == MinecraftClient.getInstance().getFramebuffer()) {
+		if (QDAA.isEnabled() && framebuffer == MinecraftClient.getInstance().getFramebuffer()) {
 			int w = framebuffer.textureWidth;
 			int h = framebuffer.textureHeight;
 			var data = memAlloc(w*h*4);

@@ -17,12 +17,19 @@ repositories {
 			includeGroup 'org.quiltmc'
 		}
 	}
+	maven {
+		url 'https://maven.terraformersmc.com/releases/'
+		content {
+			includeGroup 'com.terraformersmc'
+		}
+	}
 }
 
 dependencies {
 	minecraft "com.mojang:minecraft:${minecraft_version}"
 	mappings "org.quiltmc:quilt-mappings:1.19.2+build.21:intermediary-v2"
 	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
+	modImplementation "com.terraformersmc:modmenu:4.1.2"
 }
 
 processResources {

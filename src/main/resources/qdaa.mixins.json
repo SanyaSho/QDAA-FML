@@ -8,7 +8,8 @@
 	  "MixinFramebuffer",
 	  "MixinWindow",
 	  "MixinScreenshotRecorder",
-	  "AccessorNativeImage"
+	  "AccessorNativeImage",
+	  "AccessorTitleScreen"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -7,5 +7,7 @@
 	"authors": [ "unascribed" ],
 	"license": "CC0",
 	"environment": "client",
-	"mixins": ["qdaa.mixins.json"]
+	"mixins": ["qdaa.mixins.json"],
+	"icon": "assets/qdaa/textures/logo.png",
+	"entrypoints": {"modmenu":["com.unascribed.qdaa.QDAAModMenu"]}
 }
