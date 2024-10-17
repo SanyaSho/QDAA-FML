@@ -5,9 +5,9 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "qdaa-refmap.json",
   "client": [
-	  "MixinFramebuffer",
+	  "MixinRenderTarget",
 	  "MixinWindow",
-	  "MixinScreenshotRecorder",
+	  "MixinScreenshot",
 	  "AccessorNativeImage",
 	  "AccessorTitleScreen"
   ],

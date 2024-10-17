@@ -1,7 +1,13 @@
 pluginManagement {
-	repositories {
-		maven { url 'https://maven.quiltmc.org/repository/release' }
-		maven { url 'https://maven.fabricmc.net/' }
-		gradlePluginPortal()
-	}
+    repositories {
+        gradlePluginPortal()
+        maven {
+            name = 'MinecraftForge'
+            url = 'https://maven.minecraftforge.net/'
+        }
+    }
+}
+
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.7.0'
 }

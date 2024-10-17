@@ -8,15 +8,29 @@ import com.google.common.base.Splitter;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
 
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
+// FML
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+
+@Mod("qdaa")
 public class QDAA {
 
 	public static boolean windowSupersampled = false;
 	private static boolean enabled = true;
+
+	public QDAA(FMLJavaModLoadingContext context) {
+		IEventBus modEventBus = context.getModEventBus();
+
+		// Register ourselves for server and other game events we are interested in
+		MinecraftForge.EVENT_BUS.register(this);
+	}
 	
 	public static boolean isEnabled() {
-		return enabled || MinecraftClient.getInstance().currentScreen instanceof QDAAScreen;
+		return enabled || Minecraft.getInstance().screen instanceof QDAAScreen;
 	}
 	
 	public static boolean isConfigEnabled() {
@@ -32,15 +46,15 @@ public class QDAA {
 		boolean enabled = isEnabled();
 		if (windowSupersampled != enabled) {
 			windowSupersampled = enabled;
-			var w = MinecraftClient.getInstance().getWindow();
+			var w = Minecraft.getInstance().getWindow();
 			if (!windowSupersampled) {
-				w.setFramebufferWidth(w.getFramebufferWidth()/2);
-				w.setFramebufferHeight(w.getFramebufferHeight()/2);
+				w.setWidth(w.getWidth()/2);
+				w.setHeight(w.getHeight()/2);
 			} else {
-				w.setFramebufferWidth(w.getFramebufferWidth()*2);
-				w.setFramebufferHeight(w.getFramebufferHeight()*2);
+				w.setWidth(w.getWidth()*2);
+				w.setHeight(w.getHeight()*2);
 			}
-			MinecraftClient.getInstance().onResolutionChanged();
+			Minecraft.getInstance().resizeDisplay();
 			return true;
 		}
 		return false;

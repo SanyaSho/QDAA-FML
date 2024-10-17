@@ -12,24 +12,24 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.mojang.blaze3d.framebuffer.Framebuffer;
-import com.mojang.blaze3d.texture.NativeImage;
+import com.mojang.blaze3d.pipeline.RenderTarget;
+import com.mojang.blaze3d.platform.NativeImage;
 import com.unascribed.qdaa.QDAA;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.ScreenshotRecorder;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.Screenshot;
 
-@Mixin(ScreenshotRecorder.class)
-public class MixinScreenshotRecorder {
+@Mixin(Screenshot.class)
+public class MixinScreenshot {
 
 	@Inject(at=@At("HEAD"), method="takeScreenshot", cancellable=true, require=0)
-	private static void takeScreenshot(Framebuffer framebuffer, CallbackInfoReturnable<NativeImage> cir) {
-		if (QDAA.isEnabled() && framebuffer == MinecraftClient.getInstance().getFramebuffer()) {
-			int w = framebuffer.textureWidth;
-			int h = framebuffer.textureHeight;
+	private static void takeScreenshot(RenderTarget renderTarget, CallbackInfoReturnable<NativeImage> cir) {
+		if (QDAA.isEnabled() && renderTarget == Minecraft.getInstance().getMainRenderTarget()) {
+			int w = renderTarget.width;
+			int h = renderTarget.height;
 			var data = memAlloc(w*h*4);
 			try {
-				framebuffer.bindColorAttachmentAsTexture();
+				renderTarget.bindRead();
 				glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 				for (int i = 0; i < data.limit(); i += 4)
 					data.put(i+3, (byte)0xFF);
@@ -39,7 +39,7 @@ public class MixinScreenshotRecorder {
 						odata, w/2, h/2, 0,
 						4, 0, 3, STBIR_EDGE_CLAMP,
 						STBIR_FILTER_BOX, STBIR_COLORSPACE_LINEAR);
-				img.mirrorVertically();
+				img.flipY();
 				cir.setReturnValue(img);
 			} finally {
 				memFree(data);
