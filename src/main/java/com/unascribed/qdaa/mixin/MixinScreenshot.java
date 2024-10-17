@@ -22,7 +22,7 @@ import net.minecraft.client.Screenshot;
 @Mixin(Screenshot.class)
 public class MixinScreenshot {
 
-	@Inject(at=@At("HEAD"), method="takeScreenshot", cancellable=true, require=0)
+	@Inject(at=@At("HEAD"), method="Lnet/minecraft/client/Screenshot;takeScreenshot(Lcom/mojang/blaze3d/pipeline/RenderTarget;)Lcom/mojang/blaze3d/platform/NativeImage;", cancellable=true, require=0)
 	private static void takeScreenshot(RenderTarget renderTarget, CallbackInfoReturnable<NativeImage> cir) {
 		if (QDAA.isEnabled() && renderTarget == Minecraft.getInstance().getMainRenderTarget()) {
 			int w = renderTarget.width;

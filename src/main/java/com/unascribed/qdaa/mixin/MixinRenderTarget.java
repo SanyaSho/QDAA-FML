@@ -17,7 +17,7 @@ import net.minecraft.client.Minecraft;
 @Mixin(RenderTarget.class)
 public class MixinRenderTarget {
 
-	@ModifyConstant(constant=@Constant(intValue=GL_NEAREST), method="createBuffers")
+	@ModifyConstant(constant=@Constant(intValue=GL_NEAREST), method="Lcom/mojang/blaze3d/pipeline/RenderTarget;createBuffers(IIZ)V")
 	public int qdaa$linearFiltering(int orig) {
 		RenderTarget self = (RenderTarget)(Object)this;
 		if (QDAA.isEnabled() && self == Minecraft.getInstance().getMainRenderTarget()) {

@@ -12,7 +12,7 @@ import com.unascribed.qdaa.QDAA;
 @Mixin(Window.class)
 public class MixinWindow {
 	
-	@ModifyVariable(at=@At("HEAD"), method="onFramebufferResize", ordinal=0)
+	@ModifyVariable(at=@At("HEAD"), method="Lcom/mojang/blaze3d/platform/Window;onFramebufferResize(JII)V", ordinal=0)
 	public int qdaa$sssaWidth(int orig) {
 		if (QDAA.isEnabled()) {
 			QDAA.windowSupersampled = true;
@@ -21,13 +21,13 @@ public class MixinWindow {
 		return orig;
 	}
 	
-	@ModifyVariable(at=@At("HEAD"), method="onFramebufferResize", ordinal=1)
+	@ModifyVariable(at=@At("HEAD"), method="Lcom/mojang/blaze3d/platform/Window;onFramebufferResize(JII)V", ordinal=1)
 	public int qdaa$sssaHeight(int orig) {
 		return QDAA.isEnabled() ? orig*2 : orig;
 	}
 	
 	@Redirect(at=@At(value="INVOKE", target="org/lwjgl/glfw/GLFW.glfwGetFramebufferSize(J[I[I)V", remap=false),
-			method="refreshFramebufferSize")
+			method="Lcom/mojang/blaze3d/platform/Window;refreshFramebufferSize()V")
 	public void qdaa$modifyInitialSize(long window, int[] w, int[] h) {
 		if (QDAA.isEnabled()) {
 			QDAA.windowSupersampled = true;
