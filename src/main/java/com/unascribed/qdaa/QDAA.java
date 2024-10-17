@@ -3,6 +3,7 @@ package com.unascribed.qdaa;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+
 import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
 import com.google.common.io.Files;
@@ -11,8 +12,10 @@ import com.google.common.io.Resources;
 import net.minecraft.client.Minecraft;
 
 // FML
+import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
@@ -23,10 +26,7 @@ public class QDAA {
 	private static boolean enabled = true;
 
 	public QDAA(FMLJavaModLoadingContext context) {
-		IEventBus modEventBus = context.getModEventBus();
-
-		// Register ourselves for server and other game events we are interested in
-		MinecraftForge.EVENT_BUS.register(this);
+		ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () -> new ConfigScreenHandler.ConfigScreenFactory((mc, current) -> new QDAAScreen( current )));
 	}
 	
 	public static boolean isEnabled() {

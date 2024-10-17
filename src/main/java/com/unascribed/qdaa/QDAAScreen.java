@@ -26,10 +26,10 @@ public class QDAAScreen extends Screen {
 	@Override
 	protected void init() {
 		if (QDAA.updateWindow()) return;
-		addWidget(new Button((width/2)+1, height-20, 100, 20, Component.translatable("gui.done"), (b) -> {
+		addRenderableWidget(new Button((width/2)+1, height-20, 100, 20, Component.translatable("gui.done"), (b) -> {
 			onClose();
 		}));
-		addWidget(new Button((width/2)-101, height-20, 100, 20, Component.translatable("options."+(QDAA.isConfigEnabled()?"on":"off")+".composed", "2xSSAA"), (b) -> {
+		addRenderableWidget(new Button((width/2)-101, height-20, 100, 20, Component.translatable("options."+(QDAA.isConfigEnabled()?"on":"off")+".composed", "2xSSAA"), (b) -> {
 			QDAA.setEnabled(!QDAA.isConfigEnabled());
 			QDAA.writeConfig();
 			b.setMessage(Component.translatable("options."+(QDAA.isConfigEnabled()?"on":"off")+".composed", "2xSSAA"));
@@ -72,8 +72,8 @@ public class QDAAScreen extends Screen {
 		
 		var ssWidth = fb.width;
 		var ssHeight = fb.height;
-		var winWidth = w.getWidth();
-		var winHeight = w.getHeight();
+		var winWidth = w.getScreenWidth();
+		var winHeight = w.getScreenHeight();
 		
 		// draw some demo stuff
 
